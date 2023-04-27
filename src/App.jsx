@@ -102,6 +102,7 @@
     
       const [searchKey,setSearchKey]=useState("")
       const searching = (e) => {
+        setNotFound(false)
         const targetValue = e.target.value;
         if (targetValue.includes(" ")) {
           const splited = targetValue.split(" ");
