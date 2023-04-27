@@ -1,5 +1,5 @@
 export const MovieCard=({movie,selectMovie})=>{
-  // console.log(movie);
+
   const moviUrl="https://image.tmdb.org/t/p/w500"
   
   return(
