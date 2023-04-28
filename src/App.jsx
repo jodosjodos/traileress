@@ -1,6 +1,6 @@
 
     import './App.css'
-    import { useState,useEffect } from 'react';
+    import { useState, useRef, useLayoutEffect, useMemo, useCallback } from 'react';
     import Axios from 'axios'
     import { MovieCard } from './components/MovieCard';
     import  YouTube  from 'react-youtube';
@@ -41,8 +41,7 @@
           console.error(error);
         }
       };
-      
-      async function selectMovie(movie) {
+      const selectMovie=useCallback(async(movie)=>{
         if(!movie){
           setNotFound(true)
           return;
@@ -58,7 +57,8 @@
           setPlayTrailer(false);
           setSelectedMovie(movie);
         }
-      }
+      },[movies])
+      
       
 
     const renderTrailer = () => {
@@ -69,10 +69,10 @@
           return (
             <YouTube
               videoId={key}
-              containerClassName={"youtubeContainer"}
-              className="w-full"
+              className='youtubeContainer sm:w-20'
+             
               opts={{
-                width: "720px",
+                // width: "120px",
                 playerVars: {
                   autoplay: true,
                 },
@@ -85,7 +85,7 @@
       }
     };
 
-      useEffect(()=>{
+      useLayoutEffect(()=>{
           fetchMovies()
       },[])
       
@@ -99,44 +99,58 @@
               />
           })
       }
-    
+      const MemoMovies=useMemo(()=>{
+        return renderMovies
+      },[movies])
+    // console.log(movies[0].original_title);
       const [searchKey,setSearchKey]=useState("")
       const searching = (e) => {
         setNotFound(false)
         const targetValue = e.target.value;
         if (targetValue.includes(" ")) {
-          const splited = targetValue.split(" ");
-          const joined = splited.join("_");
-          setSearchKey(joined);
+         
+          setSearchKey(targetValue);
         } else {
           setSearchKey(targetValue);
         }
+       
+
+
       };
       
       const searchMovie=(e)=>{
           e.preventDefault()
+          console.log(searchKey);
           fetchMovies(searchKey)
       }
       
 
-        
+        const inputRef=useRef(null)
+        const handleRef=()=>{
+          const value=inputRef.current.value;
+          if(value===""){
+            inputRef.current.focus()
+          }else{
+            inputRef.current.value=""
+          }
+        }
       
     
       return(
       
 
-        <div className='container   grid  bg-blue-950  relative  m-0 p-0 div text-slate-300'>
+        <div className='container   grid  bg-blue-950  relative  m-0 p-0 div text-slate-300 '>
         
-        <header className="title grid grid-cols-2 pt-2 flex-row font-bold space-x-64   bg-slate-900   w-full">
+        <header className="header grid grid-cols-2 pt-2  font-bold space-x-64   bg-slate-900   w-full">
         <div className="flex space-x-2 mb-3 ml-3">
           <img src="./img/logo.png" alt="logo image" className="logo w-20 rounded-md"/>
             <h1 className=" text-5xl italic font-serif left-0 mt-4 hover:not-italic">Traileress</h1>
         </div>
         <div className="mt-5 mb-12">
           <form onSubmit={searchMovie} className="absolute right-10">
-          <input type="text" name="searchInput" id="seachInput" onChange={searching} className="shadow appearance-none rounded w-80 md:w-60 sm:w-32 py-2 px-3 text-gray-200 bg-blue-900 leading-tight focus:outline-none focus:bg-blue-950 focus:text-gray-200 active:bg-blue-950 active:text-gray-200" />
+          <input type="text" name="searchInput" id="seachInput" onChange={searching} className="shadow appearance-none rounded w-80 md:w-60 sm:w-32 py-2 px-3 text-gray-200 bg-blue-900 leading-tight focus:outline-none focus:bg-blue-950 focus:text-gray-200 active:bg-blue-950 active:text-gray-200 search" ref={inputRef} />
 
-              <button type="submit" className="ml-6 bg-blue-900 hover:bg-blue-950  font-bold py-2 px-4 border border-blue-900 rounded">Search</button>
+              <button type="submit" className="ml-6 bg-blue-900 hover:bg-blue-950  font-bold py-2 px-4 border border-blue-900 rounded name" onClick={handleRef}>Search</button>
           </form>
           </div>
         </header>
@@ -177,9 +191,9 @@
 
 
 
-        <div className=" grid grid-cols-3 gap-4 bg-blue-950 ">
+        <div className=" grid grid-cols-3 gap-4 bg-blue-950  renderMovie">
           {movies ?
-              renderMovies()
+              MemoMovies( )
           :
           
           <div className='bg-blue-900'></div>}

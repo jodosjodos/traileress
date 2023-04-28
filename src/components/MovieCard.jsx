@@ -1,4 +1,6 @@
 export const MovieCard=({movie,selectMovie})=>{
+  //props.movie;
+  //props.selectMovie;
 
   const moviUrl="https://image.tmdb.org/t/p/w500"
   
