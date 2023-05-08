@@ -4,6 +4,9 @@
     import Axios from 'axios'
     import { MovieCard } from './components/MovieCard';
     import  YouTube  from 'react-youtube';
+    import { AiOutlineSearch } from 'react-icons/ai';
+    import {FaCopyright} from "react-icons/fa"
+
     function App() {
       const imageUrl="https://image.tmdb.org/t/p/w1280"
       const[movies,setMovies]=useState([])
@@ -120,7 +123,7 @@
       
       const searchMovie=(e)=>{
           e.preventDefault()
-          console.log(searchKey);
+          
           fetchMovies(searchKey)
       }
       
@@ -136,79 +139,88 @@
         }
       
     
-      return(
-      
-
-        <div className='container   grid  bg-blue-950  relative  m-0 p-0 div text-slate-300 '>
+return(
+    <div className={`grid grid-row-3 h-full `} >
+       <header className='header grid grid-cols-2 gap-10 m-0'>
+          
+           
+          <h1 className="title">Traileress</h1>
+         
         
-        <header className="header grid grid-cols-2 pt-2  font-bold space-x-64   bg-slate-900   w-full">
-        <div className="flex space-x-2 mb-3 ml-3">
-          <img src="./img/logo.png" alt="logo image" className="logo w-20 rounded-md"/>
-            <h1 className=" text-5xl italic font-serif left-0 mt-4 hover:not-italic">Traileress</h1>
-        </div>
-        <div className="mt-5 mb-12">
-          <form onSubmit={searchMovie} className="absolute right-10">
-          <input type="text" name="searchInput" id="seachInput" onChange={searching} className="shadow appearance-none rounded w-80 md:w-60 sm:w-32 py-2 px-3 text-gray-200 bg-blue-900 leading-tight focus:outline-none focus:bg-blue-950 focus:text-gray-200 active:bg-blue-950 active:text-gray-200 search" ref={inputRef} />
-
-              <button type="submit" className="ml-6 bg-blue-900 hover:bg-blue-950  font-bold py-2 px-4 border border-blue-900 rounded name" onClick={handleRef}>Search</button>
+          <form onSubmit={searchMovie} className="flex justify-center items-center">
+            <input type="text" name="searchInput" id="seachInput" onChange={searching} className="search" ref={inputRef} placeholder='search trailer....' />
+            <button type="submit" className=" searchButton" onClick={handleRef}><AiOutlineSearch size={40}/></button>
           </form>
-          </div>
-        </header>
 
-       
-        <div className={` most ${selectedMovie.videos && playTrailer ? 'md:grid md:grid-cols-2 md:gap-4 md:p-8' : 'flex flex-col items-center justify-center'} md:flex  pb-80  `} style={{background:`url(${imageUrl}${selectedMovie.backdrop_path}) `}}>
-        {selectedMovie.videos && playTrailer ? (
-            <>
-          <div className='trailer ' style={{gridColumn: '1 / 2', gridRow: '1 / 2'}}>
-            {renderTrailer()}
-          </div>
-          <div className='title p-4' style={{gridColumn: '2 / 3', gridRow: '1 / 2'}}>
-            <h1 className=' font-serif text-5xl hover:underline '>{selectedMovie.title}</h1>
-            {selectedMovie.overview ? <p className='text-xl pt-2'>{selectedMovie.overview}</p> : null}
-          </div>
-          <div className='actions ' style={{gridColumn: '1 / 3', gridRow: '2 / 3'}}>
-            {playTrailer && (
-              <button className='close bg-blue-900 hover:bg-blue-950 text-white font-bold py-2 px-4 border border-blue-900 rounded mb-4' onClick={() => {setPlayTrailer(false)}}>
-                Close
-              </button>
-            )}
-          </div>
-          </>
-          )    : (
-          <>
-            <div className='title p-4'>
-                <h1 className='text-3xl font-bold mb-2 '>{selectedMovie.title}</h1>
-                {selectedMovie.overview ? <p className='text-lg mb-4'>{selectedMovie.overview}</p> : null}
-              {!playTrailer && (
-                <button onClick={() => setPlayTrailer(true)} className='bg-blue-900 hover:bg-blue-950  font-bold py-2 px-4 border border-blue-900 rounded'>
-                Play Trailer
-              </button>
-              )}
-            </div>
-        </>
-        )}
-        </div>
+          
+       </header>
+       <section className={`h-[80vh] `}>
+        
+         <div style={{background:`url(${imageUrl}${selectedMovie.backdrop_path}) `}} className='h-full bg-cover bg-no-repeat'>
+           <div className='all'>
+              {selectedMovie.videos && playTrailer ? (
+              <>
+               <div className='' >
+                 { renderTrailer()}
+                </div>
+                <div className='' >
+                   <h1 className='text-5xl'>{selectedMovie.title}</h1>
+                      {selectedMovie.overview ? <p className='my-2 text-xl'>{selectedMovie.overview}</p> : null}
+                </div>
+                <div className=''>
+                   {playTrailer && (
+                    <button className='bg-blue-900 hover:bg-blue-950  font-bold py-2 px-4 border border-blue-900 rounded my-3' onClick={() => {setPlayTrailer(false)}}>
+                        Close
+                    </button>
+                   )}
+                </div>
+              </>
+             )    : (
 
+        <div className=''>
+        <h1 className='text-5xl p-2'>{selectedMovie.title}</h1>
+        {selectedMovie.overview ? <p className='my-2 text-xl'>{selectedMovie.overview}</p> : null}
+          {!playTrailer && (
+        <button onClick={() => setPlayTrailer(true)} className='bg-blue-900 hover:bg-blue-950  font-bold py-2 my-3 px-4 border border-blue-900 rounded '>
+        Play Trailer
+      </button>
+      )}
+    </div>
 
-
-        <div className=" grid grid-cols-3 gap-4 bg-blue-950  renderMovie">
-          {movies ?
+      )}
+           </div>
+          
+          </div>
+       </section>
+       <main>
+       <div className='grid grid-cols-3 gap-3 bg-black movie '>
+       {movies ?
               MemoMovies( )
           :
           
-          <div className='bg-blue-900'></div>}
-        
-          
-          
-        </div>
-        {notFound && <p className='text-3xl font-serif m-auto mt-5'>no movie found with that name</p>}
-      </div>
-        
+          <div className='bg-blue-900'></div>}  
+       </div>
+       </main>
+       <footer className='bg-black'>
+       {notFound ? <p className='title'>no movie found with that name</p>:''}
+       <p className='items-center flex justify-center'><FaCopyright color='#fff' size={30}/><span className='title'>jodos</span></p>
+       </footer>
+
+    </div>    
+  )
+
+}
+export default App
+  
+
+
+            
+             
+              
+ 
+  
+       
         
       
         
-      )
-    
-    }
 
-    export default App
