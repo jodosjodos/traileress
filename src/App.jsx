@@ -234,7 +234,7 @@ return(
           {selectedMovie.videos && playTrailer ? (
           <>
            <div className='' >
-           
+           {renderTrailer()}
 
 
             </div>
@@ -279,7 +279,10 @@ return(
    </div>
    </main>
    <footer className='bg-black'>
-   {notFound && <p className='title'>no movie found with that name  or it has no trailer</p>}
+   {notFound && <div className=' flex flex-row'>
+    <p className='title'>no movie found with that name  or it has no trailer</p>
+    <button className='bg-blue-900 hover:bg-blue-950  font-bold py-2 px-4 border border-blue-900 rounded mx-3 my-3  text-white w-28 h-10q' onClick={() => window.location.reload()}>refresh</button>
+   </div>  }
    
    
    <p className='items-center flex justify-center'><FaCopyright color='#fff' size={30}/><span className='title'>jodos</span></p>
