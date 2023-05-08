@@ -57,6 +57,10 @@
 .other {
     background: #000320
 }
+.cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
  
 }
  

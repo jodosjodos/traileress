@@ -155,7 +155,7 @@ return(
    </header>
    <section className={`h-[80vh] `}>
     
-     <div style={{background:`url(${imageUrl}${selectedMovie.backdrop_path}) `}} className='h-full bg-cover bg-no-repeat'>
+     <div style={{background:`url(${imageUrl}${selectedMovie.backdrop_path}) `}} className='h-full cover'>
        <div className='all'>
           {selectedMovie.videos && playTrailer ? (
           <>
@@ -192,7 +192,7 @@ return(
       </div>
    </section>
    <main>
-   <div className='grid grid-cols-3 gap-3 bg-black movie '>
+   <div className='grid grid-cols-3 gap-3 bg-black movie ' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
    {movies ?
           MemoMovies( )
       :
