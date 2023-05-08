@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 src/draft.jsx
+
+const apiUrl="https://api.themoviedb.org/3/";
+  const apiKey="253eb6a5f22792e1412b47d42d247239"
